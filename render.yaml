@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: gold-price-predictor-web
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -k uvicorn.workers.UvicornWorker main:app
+    plan: free
+    branch: main
+
+  - type: worker
+    name: gold-price-predictor-worker
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scheduler.py
+    plan: free
+    branch: main
